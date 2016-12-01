@@ -1,12 +1,9 @@
 ﻿
 #viewer5d-Container {
     margin: 0 0 10px;
-    height: 100%;
-    width: 100%;
 }
 #viewer5d-ControlerContainer {
-    margin: 5px;
-    height: 28px;
+    display:grid;
 }
 
 #viewer5d-Menu {
@@ -22,8 +19,6 @@
 #viewer5d-ContentContainer {
     margin:5px;
     clear: both;
-
-    height: 100%;
 }
 #viewer5d-TableContainer{
     float: left;
@@ -41,12 +36,13 @@
 }
 
 #viewer5d-ReportContainer {
-    float: left;
-    width: 45%;    
+    float: right;
+    width: 45%;
+    
 }
 
 #viewer5d-Report {
-    height: 200px;
+    min-height: 250px;
 }
 
 #viewer5d-Table thead tr th{
@@ -57,6 +53,9 @@
         font-size: 8px;
         text-align: center;
     }
+
+
+
 
 .viewer5d-Menu-Button {
     float: left;

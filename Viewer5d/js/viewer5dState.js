@@ -1,5 +1,22 @@
 ﻿var BIMCloud = BIMCloud || {};
 
+BIMCloud.Idle = function (viewer5d) {
+    var scope = viewer5d;
+    this.execute = function () {
+        scope.playButton.isChecked = false;
+        scope.previousButton.isChecked = false;
+        scope.pauseButton.isChecked = false;
+        scope.nextButton.isChecked = false;
+        scope.stopButton.isChecked = true;
+
+        scope.playButton.isEnable = true;
+        scope.previousButton.isEnable = false;
+        scope.pauseButton.isEnable = false;
+        scope.nextButton.isEnable = false;
+        scope.stopButton.isEnable = true;
+    };
+};
+
 BIMCloud.Play = function (viewer5d) {
     var scope = viewer5d;
 

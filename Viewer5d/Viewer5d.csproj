@@ -72,6 +72,7 @@
     <Content Include="css\stop.png" />
     <Content Include="css\stopClick.png" />
     <Content Include="css\stopDisable.png" />
+    <Content Include="css\viewer5d2.css" />
     <Content Include="css\viewer5d.css" />
     <Content Include="index.html" />
     <Content Include="js\common.js" />
@@ -82,6 +83,7 @@
     <Content Include="lib\bootstrap.min.css" />
     <Content Include="lib\dataTables.bootstrap.min.css" />
     <Content Include="lib\dataTables.bootstrap.min.js" />
+    <Content Include="lib\echarts.min.js" />
     <Content Include="lib\jquery-1.9.1.js" />
     <Content Include="lib\jquery-ui.css" />
     <Content Include="lib\jquery-ui.js" />
