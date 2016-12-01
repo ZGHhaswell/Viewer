@@ -4,19 +4,6 @@ BIMCloud.Viewer5d = function (containerName, viewer) {
 
     BIMCloud.Event.call(this);
 
-    var scope = this;
-
-    this.playButton = null;
-    this.previousButton = null;
-    this.pauseButton = null;
-    this.nextButton = null;
-    this.stopButton = null;
-
-    this.slider = null;
-    this.table = null;
-
-    this.percent = 0;
-    
     var initData = [{
         percent: "0%",
         planName: "计划1",
@@ -46,30 +33,86 @@ BIMCloud.Viewer5d = function (containerName, viewer) {
             realEndTime: "2016-11-01",
             type: "土建",
             totalCost: "1000"
-        }
+        },
+        {
+            percent: "0%",
+            planName: "计划4",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2016-11-01",
+            realEndTime: "2016-11-01",
+            type: "土建",
+            totalCost: "1000"
+        },
+        {
+            percent: "0%",
+            planName: "计划5",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2016-11-01",
+            realEndTime: "2016-11-01",
+            type: "土建",
+            totalCost: "1000"
+        },
+        {
+            percent: "0%",
+            planName: "计划6",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2016-11-01",
+            realEndTime: "2016-11-01",
+            type: "土建",
+            totalCost: "1000"
+        },
     ];
 
-    //创建View
-    BIMCloud.Common.createView(scope, containerName, initData);
+
+    var scope = this;
+
+    this.container = null;
+    this.playButton = null;
+    this.previousButton = null;
+    this.pauseButton = null;
+    this.nextButton = null;
+    this.stopButton = null;
+
+    this.slider = null;
+    this.table = null;
+
+    this.percent = 0;
 
     //计划区间
-    this.dateMin = new Date(9999,12,31);
+    this.dateMin = new Date(9999, 12, 31);
     this.dateMax = new Date(0001, 1, 1);
 
-    //5d table init
-    var rows = scope.table.rows().data();
-    for (var i = 0; i < rows.length; i++) {
-        var curRow = rows[i];
-        var planStart = new Date(curRow.planStartTime);
-        var planEnd = new Date(curRow.planEndTime);
-        
-        if (planStart.getTime() < this.dateMin.getTime())
-            this.dateMin = planStart;
-        if (planEnd.getTime() > this.dateMax.getTime())
-            this.dateMax = planEnd;
+    var analyize = function (scope) {
+        //5d table init
+        var rows = initData;
+        for (var i = 0; i < rows.length; i++) {
+            var curRow = rows[i];
+            var planStart = new Date(curRow.planStartTime);
+            var planEnd = new Date(curRow.planEndTime);
 
-    }
-    
+            if (planStart.getTime() < scope.dateMin.getTime())
+                scope.dateMin = planStart;
+            if (planEnd.getTime() > scope.dateMax.getTime())
+                scope.dateMax = planEnd;
+
+        }
+    };
+    //分析 initdata
+    analyize(scope);
+
+
+    //创建Control
+    BIMCloud.Common.createControl(scope, containerName);
+
+    //创建表格
+    BIMCloud.Common.createTable(scope, initData);
+
+    //创建折线图
+    BIMCloud.Common.createChart(scope, initData);
+
     //每个percent耗时  1秒
     this.interval = 500;
 
@@ -104,7 +147,7 @@ BIMCloud.Viewer5d = function (containerName, viewer) {
         scope.stop();
     });
 
-    //进度条变化
+    //进度条变化 => 触发percent
     scope.addEventListener("sliderChanged", function (event) {
         var percent = event.percent;
 
@@ -131,7 +174,19 @@ BIMCloud.Viewer5d = function (containerName, viewer) {
         }
 
     });
+    
+    //进度条变化 => 触发chart
+    scope.addEventListener("sliderChanged", function (event) {
+        var percent = event.percent;
 
+        var oneDay = 24 * 3600 * 1000;
+        var index = percent * scope.intervalTime / oneDay;
+
+        scope.myChart.dispatchAction({
+            type: 'showTip',
+            dataIndex: parseInt( index),
+        })
+    });
 
     
 };

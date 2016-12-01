@@ -1,8 +1,17 @@
 ﻿
+html,body
+{
+    height:100%; width:100%; overflow:hidden; margin:0;
+padding:0;
+
+
+}
+
+
 #viewer5d-Container {
     margin: 0 0 10px;
-    height: 100%;
-    width: 100%;
+    width:100%; height:100%; overflow:hidden; margin:0;
+padding:0;
 }
 #viewer5d-ControlerContainer {
     margin: 5px;
@@ -46,6 +55,7 @@
 }
 
 #viewer5d-Report {
+    margin:10px;
     height: 200px;
 }
 
