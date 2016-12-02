@@ -149,7 +149,8 @@ BIMCloud.UI.createChart = function (scope, initData) {
         }
 
         return {
-            name: [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-'),
+            //name: [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-'),
+            name: date.toString(),
             value: [
                 [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-'),
                 Math.round(currentValue)
