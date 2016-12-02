@@ -40,23 +40,94 @@
     
     <script type="text/javascript">
         $(document).ready(function () {
+            
+            var initData = [{
+                percent: "0%",
+                planName: "计划1",
+                planStartTime: "2016-11-01",
+                planEndTime: "2017-01-01",
+                realStartTime: "2016-11-01",
+                realEndTime: "2017-03-01",
+                type: "土建",
+                totalCost: "1000",
+                ids: [1, 2, 3, 4]
+            },
+        {
+            percent: "0%",
+            planName: "计划2",
+            planStartTime: "2017-01-02",
+            planEndTime: "2017-05-02",
+            realStartTime: "2017-03-02",
+            realEndTime: "2017-04-02",
+            type: "土建",
+            totalCost: "1000",
+            ids: [4, 5, 6, 7]
+        },
+        {
+            percent: "0%",
+            planName: "计划3",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2017-04-02",
+            realEndTime: "2017-05-02",
+            type: "土建",
+            totalCost: "1000",
+            ids: [15, 22, 22, 1]
+        },
+        {
+            percent: "0%",
+            planName: "计划4",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2017-06-02",
+            realEndTime: "2017-07-02",
+            type: "土建",
+            totalCost: "1000",
+            ids: [15, 16, 17, 8]
+        },
+        {
+            percent: "0%",
+            planName: "计划5",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2017-07-02",
+            realEndTime: "2017-08-02",
+            type: "土建",
+            totalCost: "1000",
+            ids: [1000, 101, 555, 222]
+        },
+        {
+            percent: "0%",
+            planName: "计划6",
+            planStartTime: "2017-05-03",
+            planEndTime: "2017-09-03",
+            realStartTime: "2017-09-02",
+            realEndTime: "2017-10-02",
+            type: "土建",
+            totalCost: "1000",
+            ids: [555, 123, 22, 2222]
+        }
+            ];
 
-            //$("#viewer5d-Slider").slider();
-           var viewer5d = new BIMCloud.Viewer5d("viewer5d-Container");
+
+            var viewer5d = new BIMCloud.Viewer5d("viewer5d-Container", initData);
+            
+            viewer5d.addEventListener("showIdsChanged", function (event) {
+                //显示部分模型
+                console.log(event.ids);
+            });
+            
+            viewer5d.addEventListener("showAll", function (event) {
+                //显示全部模型
+            });
+            
         });
     </script>
 </head>
     <body>
         
         <div id="viewer5d-Container">
-            <!--<div id="viewer5d-ControlerContainer">
-                <div id="viewer5d-Menu">123</div>
-                <div id="viewer5d-SliderContainer">
-                    <div id="viewer5d-Slider"></div>
-                </div>
-            </div>
-        
-            <div id="viewer5d-ContentContainer"></div>-->
+            
         </div>
         
     </body>

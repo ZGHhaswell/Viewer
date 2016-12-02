@@ -3,6 +3,9 @@
 BIMCloud.Idle = function (viewer5d) {
     var scope = viewer5d;
     this.execute = function () {
+        
+        $(scope.slider).slider('disable');
+        
         scope.playButton.isChecked = false;
         scope.previousButton.isChecked = false;
         scope.pauseButton.isChecked = false;
@@ -21,6 +24,8 @@ BIMCloud.Play = function (viewer5d) {
     var scope = viewer5d;
 
     this.execute = function () {
+        
+        $(scope.slider).slider('disable');
         
         scope.previousButton.isChecked = false;
         scope.pauseButton.isChecked = false;
@@ -60,6 +65,9 @@ BIMCloud.Previous = function (viewer5d) {
 BIMCloud.Pause = function (viewer5d) {
     var scope = viewer5d;
     this.execute = function () {
+        
+        $(scope.slider).slider('enable');
+        
         scope.playButton.isChecked = false;
         scope.previousButton.isChecked = false;
         scope.nextButton.isChecked = false;
@@ -98,6 +106,10 @@ BIMCloud.Next = function (viewer5d) {
 BIMCloud.Stop = function (viewer5d) {
     var scope = viewer5d;
     this.execute = function () {
+        
+        $(scope.slider).slider('disable');
+        
+
         scope.playButton.isChecked = false;
         scope.previousButton.isChecked = false;
         scope.pauseButton.isChecked = false;

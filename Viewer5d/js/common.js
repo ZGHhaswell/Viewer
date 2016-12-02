@@ -1,8 +1,8 @@
 ﻿var BIMCloud = BIMCloud || {};
 
-BIMCloud.Common = BIMCloud.Common || {};
+BIMCloud.UI = BIMCloud.UI || {};
 
-BIMCloud.Common.createElement = function (tagName, id, className) {
+BIMCloud.UI.createElement = function (tagName, id, className) {
     var element = document.createElement(tagName);
     if (className !== undefined)
         element.className = className;
@@ -12,8 +12,8 @@ BIMCloud.Common.createElement = function (tagName, id, className) {
     return element;
 };
 
-BIMCloud.Common.createControl = function (scope, containerName) {
-    var createElement = BIMCloud.Common.createElement;
+BIMCloud.UI.createControl = function (scope, containerName) {
+    var createElement = BIMCloud.UI.createElement;
 
     //main container
     scope.container = document.getElementById(containerName);
@@ -51,8 +51,8 @@ BIMCloud.Common.createControl = function (scope, containerName) {
     
 };
 
-BIMCloud.Common.createTable = function (scope, initData) {
-    var createElement = BIMCloud.Common.createElement;
+BIMCloud.UI.createTable = function (scope, initData) {
+    var createElement = BIMCloud.UI.createElement;
 
     var container = scope.container;
     //content container
@@ -120,7 +120,7 @@ BIMCloud.Common.createTable = function (scope, initData) {
 
 };
 
-BIMCloud.Common.createChart = function (scope, initData) {
+BIMCloud.UI.createChart = function (scope, initData) {
 
     var container = scope.container;
 
@@ -128,14 +128,14 @@ BIMCloud.Common.createChart = function (scope, initData) {
     scope.myChart = echarts.init(chartDom);
 
 
-    var buildData = function (date, initData) {
+    var buildData = function (date, rows, getStart, getEnd) {
         var currentValue = 0;
         var dateTime = date.getTime();
-        var rows = initData;
+        
         for (var i = 0; i < rows.length; i++) {
             var curRow = rows[i];
-            var planStart = new Date(curRow.planStartTime).getTime();
-            var planEnd = new Date(curRow.planEndTime).getTime();
+            var planStart = new Date(getStart(curRow)).getTime();
+            var planEnd = new Date(getEnd(curRow)).getTime();
 
             if(dateTime > planEnd)
             {
@@ -149,52 +149,98 @@ BIMCloud.Common.createChart = function (scope, initData) {
         }
 
         return {
-            name: date.toString(),
+            name: [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-'),
             value: [
                 [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-'),
-            Math.round(currentValue)
+                Math.round(currentValue)
             ]
+        };
+    };
 
-        }
+    var getPlanStart = function(planData) {
+        return planData.planStartTime;
+    };
+    
+    var getPlanEnd = function (planData) {
+        return planData.planEndTime;
     };
 
 
-    var data = [];
+    var getRealStart = function (planData) {
+        return planData.realStartTime;
+    };
 
-    var dateMin = scope.dateMin;
-    var dateMax = scope.dateMax;
-    var oneDay = 24 * 3600 * 1000;
+    var getRealEnd = function (planData) {
+        return planData.realEndTime;
+    };
+    
+    var buildDatas = function (scope, initData, getStart, getEnd) {
+        var datas = [];
+        datas.push(buildData(scope.dateMin, initData, getStart, getEnd));
 
-    data.push(buildData(dateMin, initData));
+        var dateMinTime = scope.dateMin.getTime();
+        var dateMaxTime = scope.dateMax.getTime();
+        
+        var oneDay = 24 * 3600 * 1000;
 
-    var dateMinTime = scope.dateMin.getTime();
-    var dateMaxTime = scope.dateMax.getTime();
+        while (true) {
+            dateMinTime = dateMinTime + oneDay;
 
-    while(true)
-    {
-        dateMinTime = dateMinTime + oneDay;
-
-        if (dateMinTime < dateMaxTime)
-            data.push(buildData(new Date(dateMinTime), initData));
-        else
-        {
-            break;
+            if (dateMinTime < dateMaxTime)
+                datas.push(buildData(new Date(dateMinTime), initData, getStart, getEnd));
+            else {
+                break;
+            }
         }
-    } 
 
-    data.push(buildData(dateMax, initData));
+        datas.push(buildData(scope.dateMax, initData, getStart, getEnd));
 
-    option = {
+        return datas;
+    };
+
+    var planDatas = buildDatas(scope, initData, getPlanStart, getPlanEnd);
+    
+    var realDatas = buildDatas(scope, initData, getRealStart, getRealEnd);
+
+    scope.dataCount = planDatas.length;
+
+    var option = {
         title: {
             text: '费用(万元)'
         },
+        legend: {
+            top:5,
+            data: ['计划费用', '实际费用']
+        },
+        //grid: {
+        //    left: '3%',
+        //    right: '4%',
+        //    bottom: '10%',
+        //    containLabel: true
+        //},
+        toolbox: {
+            feature: {
+                
+                saveAsImage: {
+                    title:'保存'
+                }
+            }
+        },
         tooltip: {
             trigger: 'axis',
-            formatter: function (params) {
-                params = params[0];
-                var date = new Date(params.name);
+            //trigger: 'item',
 
-                return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日' + '</br>计划费用：' + params.value[1] + '万元';
+            formatter: function (params) {
+                //计划
+                var planParams = params[0];
+                var planDate = new Date(planParams.name);
+                
+                var dateInfo = planDate.getFullYear() + '年' + (planDate.getMonth() + 1) + '月' + planDate.getDate() + '日' + '</br>';
+                
+                //实际
+                var realParams = params[1];
+
+                return dateInfo + '计划费用：' + planParams.value[1] + '万元' + '</br>' + '实际费用：'+ realParams.value[1] + '万元';
             },
             axisPointer: {
                 animation: false
@@ -205,10 +251,13 @@ BIMCloud.Common.createChart = function (scope, initData) {
             splitLine: {
                 show: false
             },
+  
             axisLabel: {
+                
+                interval:0   ,
                 formatter: function (value, idx) {
                     var date = new Date(value);
-                    return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+                    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '';
         }
     },
         },
@@ -220,13 +269,22 @@ BIMCloud.Common.createChart = function (scope, initData) {
             }
         },
         series: [{
-            name: '5d数据',
+            name: '计划费用',
             type: 'line',
             smooth: true,
             showSymbol: false,
-            hoverAnimation: false,
-            data: data
-        }]
+            hoverAnimation: true,
+            data: planDatas
+        },
+            {
+                name: '实际费用',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                hoverAnimation: true,
+                data: realDatas
+            }
+        ]
     };
 
     scope.myChart.setOption(option);
