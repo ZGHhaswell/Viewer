@@ -4,12 +4,39 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     
-    
+    <style>
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*#viewer3d-Container {
+            margin: 0 0 10px;
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }*/
+
+        #viewer5d-Container {
+            margin: 0 0 10px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     
     <script src="lib/jquery-1.9.1.js"></script>
     
-    <link rel="stylesheet" href="lib/jquery-ui.css">
-    <script src="lib/jquery-ui.js"></script>
+    <link rel="stylesheet" href="lib/jquery-ui.min.css">
+    <script src="lib/jquery-ui.min.js"></script>
 
     <!--<link rel="stylesheet" href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css">
     <script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>-->
@@ -119,16 +146,23 @@
             
             viewer5d.addEventListener("showAll", function (event) {
                 //显示全部模型
+                console.log("showAll");
+            });
+            
+            viewer5d.addEventListener("hideAll", function (event) {
+                //隐藏全部模型
+                console.log("hideAll");
             });
             
         });
     </script>
 </head>
     <body>
-        
-        <div id="viewer5d-Container">
-            
+        <div id="viewer3d-Container">
+
         </div>
-        
+        <div id="viewer5d-Container">
+
+        </div>
     </body>
 </html>

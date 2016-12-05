@@ -71,7 +71,9 @@ BIMCloud.Viewer5d = function(containerName, initData) {
 
     //播放
     this.playButton.addEventListener("click", function() {
-
+        if (scope.percent === 0) {
+            scope.hideAll();
+        }
         scope.play();
     });
 
@@ -93,7 +95,7 @@ BIMCloud.Viewer5d = function(containerName, initData) {
 
     //停止
     this.stopButton.addEventListener("click", function () {
-        scope.dispatchEvent({type:"showAll"});
+        scope.showAll();
         scope.stop();
     });
 
@@ -227,7 +229,8 @@ BIMCloud.Viewer5d.prototype.play = function () {
             clearInterval(scope.timer);
             scope.percent = 0;
             new BIMCloud.Stop(scope).execute();
-            scope.dispatchEvent({ type: "showAll" });
+            scope.showAll();
+            
         }
         
     };
@@ -274,6 +277,16 @@ BIMCloud.Viewer5d.prototype.stop = function () {
     clearInterval(scope.timer);
     scope.percent = 0;
     scope.setSliderValue(scope.percent);
+};
+
+BIMCloud.Viewer5d.prototype.showAll = function () {
+    var scope = this;
+    scope.dispatchEvent({ type: "showAll" });
+};
+
+BIMCloud.Viewer5d.prototype.hideAll = function () {
+    var scope = this;
+    scope.dispatchEvent({ type: "hideAll" });
 };
 
 
