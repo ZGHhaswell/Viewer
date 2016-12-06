@@ -72,7 +72,6 @@
     <Content Include="css\button-stop.png" />
     <Content Include="css\button-stop-click.png" />
     <Content Include="css\button-stop-disable.png" />
-    <Content Include="css\viewer5d2.css" />
     <Content Include="css\viewer5d.css" />
     <Content Include="index.html" />
     <Content Include="js\common.js" />
@@ -84,12 +83,6 @@
     <Content Include="lib\dataTables.bootstrap.min.css" />
     <Content Include="lib\dataTables.bootstrap.min.js" />
     <Content Include="lib\echarts.min.js" />
-    <Content Include="lib\images\ui-icons_444444_256x240.png" />
-    <Content Include="lib\images\ui-icons_555555_256x240.png" />
-    <Content Include="lib\images\ui-icons_777620_256x240.png" />
-    <Content Include="lib\images\ui-icons_777777_256x240.png" />
-    <Content Include="lib\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="lib\images\ui-icons_ffffff_256x240.png" />
     <Content Include="lib\jquery-1.9.1.js" />
     <Content Include="lib\jquery-ui.min.css" />
     <Content Include="lib\jquery-ui.min.js" />

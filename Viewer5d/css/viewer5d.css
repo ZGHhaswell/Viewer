@@ -14,6 +14,48 @@
     top:10px;
 }
 
+#viewer5d-OptionContainer {
+    margin:5px;
+    clear: both;
+
+    height: 28px;
+}
+
+#viewer5d-OptionWrapper {
+    margin:5px;
+    clear: both;
+    float: left;
+    height: 25px;
+    width: 150px;
+}
+
+#viewer5d-Option {
+    margin: 0 5px;
+}
+
+#viewer5d-Start {
+    float: left;
+    width: 40%;
+    margin: 5px;
+    height: 25px;
+}
+
+#viewer5d-StartLabel {
+    text-align: left;
+}
+
+#viewer5d-End {
+    float: right;
+    width: 40%;
+    margin: 5px;
+    height: 25px;
+}
+
+#viewer5d-EndLabel {
+    display: block;
+    text-align:right;
+}
+
 #viewer5d-ContentContainer {
     margin:5px;
     clear: both;

@@ -5,6 +5,7 @@ BIMCloud.Idle = function (viewer5d) {
     this.execute = function () {
         
         $(scope.slider).slider('disable');
+        scope.optionControl.disabled = "";
         
         scope.playButton.isChecked = false;
         scope.previousButton.isChecked = false;
@@ -26,6 +27,7 @@ BIMCloud.Play = function (viewer5d) {
     this.execute = function () {
         
         $(scope.slider).slider('disable');
+        scope.optionControl.disabled = "disabled";
         
         scope.previousButton.isChecked = false;
         scope.pauseButton.isChecked = false;
@@ -108,8 +110,8 @@ BIMCloud.Stop = function (viewer5d) {
     this.execute = function () {
         
         $(scope.slider).slider('disable');
+        scope.optionControl.disabled = "";
         
-
         scope.playButton.isChecked = false;
         scope.previousButton.isChecked = false;
         scope.pauseButton.isChecked = false;

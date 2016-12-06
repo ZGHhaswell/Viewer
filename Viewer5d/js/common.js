@@ -46,9 +46,43 @@ BIMCloud.UI.createControl = function (scope, containerName) {
 
     //init slider
     scope.slider = $(controlSlider).slider();
+    
+};
 
+BIMCloud.UI.createOption = function (scope) {
+    var createElement = BIMCloud.UI.createElement;
+
+    var container = scope.container;
+
+    var optionContainer = createElement("div", "viewer5d-OptionContainer");
+
+    var optionWrapper = createElement("div", "viewer5d-OptionWrapper");
+
+    scope.optionControl = createElement("select", "viewer5d-Option");
+    var planOption = new Option("按计划时间模拟", "按计划时间模拟");
+    var realOption = new Option("按实际时间模拟", "按实际时间模拟");
+    planOption.selected = true;
+    scope.optionControl.add(planOption);
+    scope.optionControl.add(realOption);
     
+    optionWrapper.appendChild(scope.optionControl);
+
+    optionContainer.appendChild(optionWrapper);
+
+    var start = createElement("div", "viewer5d-Start");
+    scope.startLabel = createElement("label", "viewer5d-StartLabel");
+    scope.startLabel.innerText = "2016-11-11";
+    start.appendChild(scope.startLabel);
+    optionContainer.appendChild(start);
     
+    var end = createElement("div", "viewer5d-End");
+    scope.endLabel = createElement("label", "viewer5d-EndLabel");
+    scope.endLabel.innerText = "2016-11-11";
+    end.appendChild(scope.endLabel);
+    optionContainer.appendChild(end);
+    
+    container.appendChild(optionContainer);
+
 };
 
 BIMCloud.UI.createTable = function (scope, initData) {
@@ -175,12 +209,12 @@ BIMCloud.UI.createChart = function (scope, initData) {
         return planData.realEndTime;
     };
     
-    var buildDatas = function (scope, initData, getStart, getEnd) {
+    var buildDatas = function (scope, initData, min, max, getStart, getEnd) {
         var datas = [];
-        datas.push(buildData(scope.dateMin, initData, getStart, getEnd));
+        datas.push(buildData(min, initData, getStart, getEnd));
 
-        var dateMinTime = scope.dateMin.getTime();
-        var dateMaxTime = scope.dateMax.getTime();
+        var dateMinTime = min.getTime();
+        var dateMaxTime = max.getTime();
         
         var oneDay = 24 * 3600 * 1000;
 
@@ -194,16 +228,18 @@ BIMCloud.UI.createChart = function (scope, initData) {
             }
         }
 
-        datas.push(buildData(scope.dateMax, initData, getStart, getEnd));
+        datas.push(buildData(max, initData, getStart, getEnd));
 
         return datas;
     };
 
-    var planDatas = buildDatas(scope, initData, getPlanStart, getPlanEnd);
+    var planDatas = buildDatas(scope, initData, scope.dateMin, scope.dateMax, getPlanStart, getPlanEnd);
     
-    var realDatas = buildDatas(scope, initData, getRealStart, getRealEnd);
+    var realDatas = buildDatas(scope, initData, scope.dateRealMin, scope.dateRealMax, getRealStart, getRealEnd);
 
     scope.dataCount = planDatas.length;
+
+    scope.realDataCount = realDatas.length;
 
     var option = {
         title: {
@@ -291,7 +327,7 @@ BIMCloud.UI.createChart = function (scope, initData) {
     scope.myChart.setOption(option);
 
     var resize = function () {
-        chartDom.style.height = (container.clientHeight - 38) + "px";
+        chartDom.style.height = (container.clientHeight - 76) + "px";
         scope.myChart.resize();
     };
 

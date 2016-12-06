@@ -29,6 +29,7 @@ BIMCloud.imageButton = function (container, imageClass, clickImageClass, disable
                 element.classList.remove(imageClass);
                 element.classList.remove(clickImageClass);
                 element.classList.remove(disableImageClass);
+                
                 if (isChecked) {
                     element.classList.add(clickImageClass);
                 } else {
